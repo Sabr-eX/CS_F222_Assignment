@@ -20,8 +20,25 @@ int main(int arg1, char *fileName[])
   fscanf(file_name, "%d\n", &nodes);
   fscanf(file_name, "%d\n", &edges);
 
+  if (nodes == 0)
+  {
+    printf("Graph doesn't exist");
+    return 0;
+  }
+  if (edges == 0)
+  {
+    printf("All vertices are isolated: ");
+  }
+
   // Making a 2-D Array for Adjaceny Matrix
   int adjacency_matrix[nodes][nodes];
+  for (int i = 0; i < nodes; i++)
+  {
+    for (int j = 0; j < nodes; j++)
+    {
+      adjacency_matrix[i][j] = 0;
+    }
+  }
 
   // Initialising the matrix from the input file
   for (int i = 0; i < edges; i++)
@@ -33,11 +50,11 @@ int main(int arg1, char *fileName[])
     adjacency_matrix[b - 1][a - 1] = 1;
   }
 
-   // Making the output array
+  // Making the output array
   int deg[nodes];
-  for(int i=0;i<nodes;i++)
+  for (int i = 0; i < nodes; i++)
   {
-    deg[i]=0;
+    deg[i] = 0;
   }
 
   // Calculating the degree of each vertex
@@ -55,27 +72,27 @@ int main(int arg1, char *fileName[])
       }
     }
   }
- // Making the array in non-increasing order
+  // Making the array in non-increasing order
   for (int i = 0; i < nodes; i++)
   {
-    for (int j = i+1; j < nodes; j++)
+    for (int j = i + 1; j < nodes; j++)
     {
 
       if (deg[i] < deg[j])
       {
-       int temp = deg[i];
-       deg[i]=deg[j];
-       deg[j]=temp;
+        int temp = deg[i];
+        deg[i] = deg[j];
+        deg[j] = temp;
       }
-        
     }
   }
-// FILE *f = fopen("out.txt", "wb");
-// fwrite(&deg, sizeof(int), sizeof(deg), f);
-// fclose(f);
+  // FILE *f = fopen("out.txt", "wb");
+  // fwrite(&deg, sizeof(int), sizeof(deg), f);
+  // fclose(f);
 
-for(int i = 0; i < nodes; i++){
-  printf("%d ", deg[i]);
-}
+  for (int i = 0; i < nodes; i++)
+  {
+    printf("%d ", deg[i]);
+  }
   return 0;
 }

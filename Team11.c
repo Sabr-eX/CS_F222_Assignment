@@ -50,11 +50,11 @@ int main(int arg1, char *fileName[])
     adjacency_matrix[b - 1][a - 1] = 1;
   }
 
-  // Making the output array
-  int deg[nodes];
+  // Initialising the output array
+  int degree[nodes];
   for (int i = 0; i < nodes; i++)
   {
-    deg[i] = 0;
+    degree[i] = 0;
   }
 
   // Calculating the degree of each vertex
@@ -64,7 +64,7 @@ int main(int arg1, char *fileName[])
     {
       if (adjacency_matrix[i][j] == 1)
       {
-        deg[i]++;
+        degree[i]++;
       }
       else
       {
@@ -72,27 +72,26 @@ int main(int arg1, char *fileName[])
       }
     }
   }
+  
   // Making the array in non-increasing order
   for (int i = 0; i < nodes; i++)
   {
     for (int j = i + 1; j < nodes; j++)
     {
 
-      if (deg[i] < deg[j])
+      if (degree[i] < degree[j])
       {
-        int temp = deg[i];
-        deg[i] = deg[j];
-        deg[j] = temp;
+        int temp = degree[i];
+        degree[i] = degree[j];
+        degree[j] = temp;
       }
     }
   }
-  // FILE *f = fopen("out.txt", "wb");
-  // fwrite(&deg, sizeof(int), sizeof(deg), f);
-  // fclose(f);
+  
 
   for (int i = 0; i < nodes; i++)
   {
-    printf("%d ", deg[i]);
+    printf("%d ", degree[i]);
   }
   return 0;
 }

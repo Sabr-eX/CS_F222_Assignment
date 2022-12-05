@@ -15,21 +15,10 @@ int main(int arg1, char *fileName[])
 
   FILE *file_name = fopen(fileName[1], "r");
 
-  FILE *output_fptr = fopen("out.txt", "w");
-
-  if (output_fptr == NULL)
-  {
-    printf("Error!");
-    fclose(file_name);
-    fclose(output_fptr);
-    return 1;
-  }
-
   if (file_name == NULL)
   {
     printf("Error!");
     fclose(file_name);
-    fclose(output_fptr);
     return 1;
   }
 
@@ -41,7 +30,7 @@ int main(int arg1, char *fileName[])
   if (nodes == 0)
   {
     printf("Graph doesn't exist");
-    fprintf(output_fptr, "%s", "Graph doesn't exist!");
+
     return 0;
   }
   if (edges == 0)
@@ -107,16 +96,12 @@ int main(int arg1, char *fileName[])
     }
   }
 
-  fprintf(output_fptr, "%s", "Degree of the vertices in non-increasing order: ");
-
   for (int i = 0; i < nodes; i++)
   {
     printf("%d ", degree[i]);
-    fprintf(output_fptr, "%d ", degree[i]);
   }
 
   fclose(file_name);
-  fclose(output_fptr);
 
   return 0;
 }

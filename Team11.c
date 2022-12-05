@@ -96,6 +96,7 @@ int main(int arg1, char *fileName[])
     }
   }
 
+  // Printing the degree sequence in standard output
   for (int i = 0; i < nodes; i++)
   {
     printf("%d ", degree[i]);

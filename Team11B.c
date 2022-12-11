@@ -5,10 +5,7 @@
 // Manan Gupta - 2021A7PS2091H
 // Kumarasamy Chelliah - 2021A7PS0096H
 
-// Our Approach -
-// We are creating an array equal
-
-// Swap function 
+// Swap function
 void swap(int *x, int *y)
 {
     int temp;
@@ -17,12 +14,11 @@ void swap(int *x, int *y)
     *y = temp;
 }
 
-
 int Adjacency_Matrix_Permute_compare(int *arr, int first, int last, int length, int (*matrix1)[length], int (*matrix2)[length], int *result)
 {
     int temp;
     if (first == last)
-    {   
+    {
         int equality = 1;
         // to compare the two adjacency matrix
         for (int i = 0; i < length; i++)
@@ -39,31 +35,31 @@ int Adjacency_Matrix_Permute_compare(int *arr, int first, int last, int length, 
         {
             printf("Isomorphic");
             printf("\n");
-    
+
             for (int i = 0; i < length; i++)
             {
-                printf("%d %d\n", arr[i] + 1 ,i+1);
+                printf("%d %d\n", i + 1, arr[i] + 1);
             }
-            *result =1;
+            *result = 1;
             return 0;
-        }    
+        }
     }
-    else{
-        for(temp=first ; temp< last ;temp++)
+    else
+    {
+        for (temp = first; temp < last; temp++)
         {
-            swap((arr + first),(arr+temp));
-            if(Adjacency_Matrix_Permute_compare(arr,first+1,last,length,matrix1,matrix2,result)== 0)
+            swap((arr + first), (arr + temp));
+            if (Adjacency_Matrix_Permute_compare(arr, first + 1, last, length, matrix1, matrix2, result) == 0)
             {
                 return 0;
             }
-            swap((arr+first),(arr+temp));
+            swap((arr + first), (arr + temp));
         }
+    }
 }
-}
-
 
 int main(int arg1, char *fileName[])
-{   
+{
 
     if (arg1 != 3)
     {
@@ -71,8 +67,8 @@ int main(int arg1, char *fileName[])
         return 0;
     }
 
-    FILE *file_name_1 = fopen(fileName[1], "r");
-    FILE *file_name_2 = fopen(fileName[2], "r");
+    FILE *file_name_1 = fopen(fileName[2], "r");
+    FILE *file_name_2 = fopen(fileName[1], "r");
 
     if (file_name_1 == NULL || file_name_2 == NULL)
     {
@@ -115,10 +111,9 @@ int main(int arg1, char *fileName[])
     {
         printf("All vertices in graph-2 are isolated: ");
     }
-    
 
     int result = 0;
-    int permuted_array[nodes_1 +1];
+    int permuted_array[nodes_1 + 1];
 
     // Checking the equality of the nodes and edges of both graphs
     if ((nodes_1 != nodes_2) || (edges_1 != edges_2))
@@ -245,6 +240,7 @@ int main(int arg1, char *fileName[])
             }
         }
     }
+
     // Comparing the degree sequence of the graphs
     for (int i = 0; i < nodes_1; i++)
     {
@@ -261,6 +257,7 @@ int main(int arg1, char *fileName[])
             return 0;
         }
     }
+
     // Initialsing permuted array
     for (int i = 0; i < nodes_1; i++)
     {
@@ -269,9 +266,8 @@ int main(int arg1, char *fileName[])
 
     // Calling Recursive function
     Adjacency_Matrix_Permute_compare(permuted_array, 0, nodes_1, nodes_2, adjacency_matrix_1, adjacency_matrix_2, &result);
-    if(result == 0)
+    if (result == 0)
     {
         printf("Not Isomorphic, no bijection found.");
     }
-
 }

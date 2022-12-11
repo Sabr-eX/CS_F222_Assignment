@@ -5,8 +5,66 @@
 // Manan Gupta - 2021A7PS2091H
 // Kumarasamy Chelliah - 2021A7PS0096H
 
-int main(int arg1, char *fileName[])
+// Our Approach -
+// We are creating an array equal
+
+// Swap function 
+void swap(int *x, int *y)
 {
+    int temp;
+    temp = *x;
+    *x = *y;
+    *y = temp;
+}
+
+
+int Adjacency_Matrix_Permute_compare(int *arr, int first, int last, int length, int (*matrix1)[length], int (*matrix2)[length], int *result)
+{
+    int temp;
+    if (first == last)
+    {   
+        int equality = 1;
+        // to compare the two adjacency matrix
+        for (int i = 0; i < length; i++)
+        {
+            for (int j = 0; j < length; j++)
+            {
+                if (matrix1[arr[i]][arr[j]] != matrix2[i][j])
+                {
+                    equality = 0;
+                }
+            }
+        }
+        if (equality == 1)
+        {
+            printf("Isomorphic");
+            printf("\n");
+    
+            for (int i = 0; i < length; i++)
+            {
+                printf("%d %d\n", arr[i] + 1 ,i+1);
+            }
+            *result =1;
+            return 0;
+        }    
+    }
+    else{
+        for(temp=first ; temp< last ;temp++)
+        {
+            swap((arr + first),(arr+temp));
+            if(Adjacency_Matrix_Permute_compare(arr,first+1,last,length,matrix1,matrix2,result)== 0)
+            {
+                return 0;
+            }
+            swap((arr+first),(arr+temp));
+        }
+}
+}
+
+
+int main(int arg1, char *fileName[])
+{   
+
     if (arg1 != 3)
     {
         printf("Please enter two file names");
@@ -57,6 +115,10 @@ int main(int arg1, char *fileName[])
     {
         printf("All vertices in graph-2 are isolated: ");
     }
+    
+
+    int result = 0;
+    int permuted_array[nodes_1 +1];
 
     // Checking the equality of the nodes and edges of both graphs
     if ((nodes_1 != nodes_2) || (edges_1 != edges_2))
@@ -183,21 +245,6 @@ int main(int arg1, char *fileName[])
             }
         }
     }
-
-    // Printing the degree sequence of graph-1 in standard output
-    for (int i = 0; i < nodes_1; i++)
-    {
-        printf("%d ", degree_1[i]);
-    }
-    printf("\n");
-
-    // Printing the degree sequence of graph-2 in standard output
-    for (int i = 0; i < nodes_2; i++)
-    {
-        printf("%d ", degree_2[i]);
-    }
-    printf("\n");
-
     // Comparing the degree sequence of the graphs
     for (int i = 0; i < nodes_1; i++)
     {
@@ -208,82 +255,23 @@ int main(int arg1, char *fileName[])
         else
         {
             printf("Not Isomorphic, no bijection found.");
-            
+
             fclose(file_name_1);
             fclose(file_name_2);
             return 0;
         }
     }
-
-    int n = -1;
+    // Initialsing permuted array
     for (int i = 0; i < nodes_1; i++)
     {
-        int k = 0;
-        for (int j = 0; j < nodes_2; j++)
-        {
-            if (j + i < nodes_2)
-            {
-                if (unsorted_degree_1[j] == unsorted_degree_2[j + i])
-                {
-                    k++;
-                    continue;
-                }
-                else
-                {
-                    break;
-                }
-            }
-            else
-            {
-                if (unsorted_degree_1[j] == unsorted_degree_2[j + i - nodes_2 + 1])
-                {
-                    k++;
-                    continue;
-                }
-                else
-                {
-                    break;
-                }
-            }
-        }
-        
-        if (k == nodes_1)
-        {
-            printf("Isomorphic");
-            n = i;
-            break;
-        }
-        else
-        {
-            continue;
-        }
+        permuted_array[i] = i;
     }
 
-    if (n == -1)
+    // Calling Recursive function
+    Adjacency_Matrix_Permute_compare(permuted_array, 0, nodes_1, nodes_2, adjacency_matrix_1, adjacency_matrix_2, &result);
+    if(result == 0)
     {
         printf("Not Isomorphic, no bijection found.");
-        
-        fclose(file_name_1);
-        fclose(file_name_2);
-        return 0;
-    }
-    else
-    {
-        for (int i = 0; i < nodes_1; i++)
-        {
-            if (i + n < nodes_1)
-            {
-                printf("\n%d %d", i, i + n);
-            }
-            else
-            {
-                printf("\n%d %d", i, i + n - nodes_1 + 1);
-            }
-        }
-
-        fclose(file_name_1);
-        fclose(file_name_2);
     }
 
-    return 0;
 }
